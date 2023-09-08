@@ -47,7 +47,7 @@ function BalanceOf() {
 }
 
 function BuyToken() {
-  const [etherAmount, setEtherAmount] = useState<number>(0.1);
+  const [etherAmount, setEtherAmount] = useState<number>(0);
   const debouncedEtherAmount = useDebounce(etherAmount);
   const { config } = usePrepareContractWrite({
     ...presaleContractConfig,
@@ -67,11 +67,7 @@ function BuyToken() {
           write?.();
         }}
       >
-        <input
-          placeholder='Ether amount to pay'
-          value={etherAmount}
-          onChange={(e) => setEtherAmount(parseFloat(e.target.value))}
-        />
+        <input placeholder='Ether amount to pay' onChange={(e) => setEtherAmount(parseFloat(e.target.value))} />
         <button disabled={!write} type='submit'>
           Mint
         </button>
