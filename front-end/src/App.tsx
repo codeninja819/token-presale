@@ -8,7 +8,7 @@ import {
   useWaitForTransaction,
 } from 'wagmi';
 import { presaleContractConfig, tokenContractConfig } from './components/contracts';
-import { BaseError, formatUnits, parseEther } from 'viem';
+import { BaseError, formatEther, formatUnits, parseEther } from 'viem';
 import { useState } from 'react';
 import { useDebounce } from './hooks/useDebounce';
 import { stringify } from './utils/stringify';
@@ -58,8 +58,16 @@ function BalanceOf() {
 }
 
 function BuyToken() {
+  const { address, isConnected } = useAccount();
   const [etherAmount, setEtherAmount] = useState<number>(0);
   const debouncedEtherAmount = useDebounce(etherAmount);
+  const { data: contribution, isSuccess: isSuccessRead } = useContractRead({
+    ...presaleContractConfig,
+    functionName: 'tokenBought',
+    args: [address],
+    enabled: isConnected,
+    watch: true,
+  });
   const { config } = usePrepareContractWrite({
     ...presaleContractConfig,
     functionName: 'buyTokens',
@@ -87,6 +95,9 @@ function BuyToken() {
             className='w-input'
           />
         </div>
+        {isConnected && (
+          <div style={{ marginBottom: '10px' }}>My contribution: {formatEther(BigInt(contribution as string))}Ξ</div>
+        )}
         <ConnectButton.Custom>
           {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
             // Note: If your app doesn't use authentication, you
@@ -138,7 +149,6 @@ function BuyToken() {
             );
           }}
         </ConnectButton.Custom>
-
         {/* {isLoading && <div>Check wallet...</div>}
         {isPending && <div>Transaction pending...</div>}
         {isSuccess && (

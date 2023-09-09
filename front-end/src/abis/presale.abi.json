@@ -56,6 +56,13 @@
   },
   { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
   {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "tokenBought",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "totalSale",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
