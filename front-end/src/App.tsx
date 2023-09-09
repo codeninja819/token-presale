@@ -96,7 +96,7 @@ function BuyToken() {
           />
         </div>
         {isConnected && isSuccessRead && (
-          <div style={{ marginBottom: '10px' }}>My contribution: {formatEther(BigInt(contribution as string))}Ξ</div>
+          <div style={{ marginBottom: '10px' }}>My contribution: {formatEther(contribution as bigint)}Ξ</div>
         )}
         <ConnectButton.Custom>
           {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
