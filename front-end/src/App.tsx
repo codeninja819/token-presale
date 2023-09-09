@@ -95,7 +95,7 @@ function BuyToken() {
             className='w-input'
           />
         </div>
-        {isConnected && (
+        {isConnected && isSuccessRead && (
           <div style={{ marginBottom: '10px' }}>My contribution: {formatEther(BigInt(contribution as string))}Ξ</div>
         )}
         <ConnectButton.Custom>
