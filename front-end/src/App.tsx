@@ -83,7 +83,7 @@ function BuyToken() {
         <div>
           <input
             placeholder='.1/ .3 eth'
-            onChange={(e) => setEtherAmount(parseFloat(e.target.value))}
+            onChange={(e) => setEtherAmount(isNaN(parseFloat(e.target.value)) ? 0 : parseFloat(e.target.value))}
             className='w-input'
           />
         </div>
