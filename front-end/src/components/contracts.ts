@@ -2,8 +2,8 @@ import { erc20ABI } from 'wagmi'
 import { type Abi, type Address } from "viem";
 import PRESALE_ABI from "../abis/presale.abi.json";
 
-export const TOKEN_CA = "0xB2eadDC5A2EeBBb71e89B70d97ce4f441a4DEf12";
-export const PRESALE_CA = "0x9bc7BCb71a11BaC10667b0c8Cc26803605606bFE";
+export const TOKEN_CA = "0xb55bD1A63558E2384C2231eE8C2B8B036FF62727";
+export const PRESALE_CA = "0x3a1d4bD1289e79A2Eba64A8200605B740Ac6A76E";
 
 export const presaleContractConfig = {
   address: PRESALE_CA as Address,
