@@ -18,14 +18,25 @@ export function App() {
 
   return (
     <>
-      <ConnectButton />
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <BuyToken />
+        {/* <ConnectButton /> */}
 
-      {isConnected && (
-        <>
-          <BalanceOf />
-          <BuyToken />
-        </>
-      )}
+        {/* {isConnected && (
+          <>
+            <BalanceOf />
+            <BuyToken />
+          </>
+        )} */}
+      </div>
     </>
   );
 }
@@ -60,29 +71,85 @@ function BuyToken() {
 
   return (
     <>
-      <h3>Mint a wagmi</h3>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          write?.();
-        }}
-      >
-        <input placeholder='Ether amount to pay' onChange={(e) => setEtherAmount(parseFloat(e.target.value))} />
-        <button disabled={!write} type='submit'>
-          Mint
-        </button>
-      </form>
+      <div style={{ fontFamily: 'Arial, sans-serif' }}>
+        <div
+          style={{
+            marginBottom: '5px',
+            fontWeight: 'bold',
+          }}
+        >
+          mvp
+        </div>
+        <div>
+          <input
+            placeholder='.1/ .3 eth'
+            onChange={(e) => setEtherAmount(parseFloat(e.target.value))}
+            className='w-input'
+          />
+        </div>
+        <ConnectButton.Custom>
+          {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
+            // Note: If your app doesn't use authentication, you
+            // can remove all 'authenticationStatus' checks
+            const ready = mounted && authenticationStatus !== 'loading';
+            const connected =
+              ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
 
-      {isLoading && <div>Check wallet...</div>}
-      {isPending && <div>Transaction pending...</div>}
-      {isSuccess && (
-        <>
-          <div>Transaction Success</div>
-          <div>Transaction Hash: {data?.hash}</div>
-        </>
-      )}
+            return (
+              <div
+                {...(!ready && {
+                  'aria-hidden': true,
+                  style: {
+                    opacity: 0,
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                  },
+                })}
+              >
+                {(() => {
+                  if (!connected) {
+                    return (
+                      <button onClick={openConnectModal} type='button'>
+                        Connect Wallet
+                      </button>
+                    );
+                  }
 
-      {isError && <div>{(error as BaseError)?.shortMessage}</div>}
+                  if (chain.unsupported) {
+                    return (
+                      <button onClick={openChainModal} type='button'>
+                        Wrong network
+                      </button>
+                    );
+                  }
+
+                  return (
+                    <button
+                      onClick={() => {
+                        write?.();
+                      }}
+                      disabled={!write}
+                    >
+                      Mint
+                    </button>
+                  );
+                })()}
+              </div>
+            );
+          }}
+        </ConnectButton.Custom>
+
+        {/* {isLoading && <div>Check wallet...</div>}
+        {isPending && <div>Transaction pending...</div>}
+        {isSuccess && (
+          <>
+            <div>Transaction Success</div>
+            <div>Transaction Hash: {data?.hash}</div>
+          </>
+        )} */}
+
+        {/* {isError && <div>{(error as BaseError)?.shortMessage}</div>} */}
+      </div>
     </>
   );
 }
